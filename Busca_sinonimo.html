@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='pt-br'>
+	<head>
+		<meta charset='UTF-8'>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/boost.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+	</head>
+
+	<body>
+
+		<button>Clique para buscar o sinônimo</button>
+
+		<div id='container'></div>
+
+	    <script>
+
+	    	var sinon;
+	    	var dados = [];
+	    	var lista = [];
+
+	    	$(document).ready(function(){
+			  $("button").click(function(){
+				sinon = prompt ('Sinônimo: ');
+			    $.get("http://localhost:5002/"+sinon, function(data){
+
+			    	for (var i = 0; i < data.length; i++) {
+			    		dados.push([sinon, data[i]]);
+			    		console.log(dados[i]);
+			    	}
+
+			    	Highcharts.addEvent(
+					    Highcharts.Series,
+						    'afterSetOptions',
+						    function (e) {
+						        var colors = Highcharts.getOptions().colors,
+						        i = 0,
+						        nodes = {};
+
+						        if (
+						            this instanceof Highcharts.seriesTypes.networkgraph &&
+						            e.options.id === 'lang-tree'
+						        ) {
+						            e.options.data.forEach(function (link) {
+
+						                if (link[0] === sinon) {
+						                    nodes[sinon] = {
+						                        id: sinon,
+						                        marker: {
+						                            radius: 20
+						                        }
+						                    };
+						                    nodes[link[1]] = {
+						                        id: link[1],
+						                        marker: {
+						                            radius: 10
+						                        },
+						                        color: colors[i++]
+						                    };
+						                } else if (nodes[link[0]] && nodes[link[0]].color) {
+						                    nodes[link[1]] = {
+						                        id: link[1],
+						                        color: nodes[link[0]].color
+						                    };
+						                }
+						            });
+
+						            e.options.nodes = Object.keys(nodes).map(function (id) {
+						                return nodes[id];
+						            });
+						        }
+						    }
+					);
+
+						Highcharts.chart('container', {
+							    chart: {
+							        type: 'networkgraph',
+							        height: '100%'
+							    },
+							    title: {
+							        text: 'Sinônimo de '+sinon
+							    },
+							    subtitle: {
+							        text: 'Desafio Stilingue'
+							    },
+							    plotOptions: {
+							        networkgraph: {
+							            keys: ['from', 'to'],
+							            layoutAlgorithm: {
+							                enableSimulation: true,
+							                friction: -0.9
+							            }
+							        }
+							    },
+							    series: [{
+							        dataLabels: {
+							            enabled: true,
+							            linkFormat: ''
+							        },
+							        id: 'lang-tree',
+							        data: dados
+							    }]
+						});
+				  });
+
+				});
+
+			    	
+			    });		    
+
+		    
+		</script>
+
+	</body>
+</html> 

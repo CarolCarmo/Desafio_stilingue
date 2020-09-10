@@ -45,4 +45,4 @@ def busca_palavra(sinonimo):
 		return "Nao foi encontrado sinonimo para [" + sin + "]"
 
 
-obj.run(port=5002)
+obj.run(host='127.0.0.1', port=8080, debug=True)

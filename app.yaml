@@ -5,6 +5,6 @@ handlers:
   static_files: Busca_sinonimo.html
   upload: Busca_sinonimo.html
 
-- url: /(.*)
-  static_files: /\1
-  upload: /(.*)
+- url: /.* 
+  script: application.app
+  

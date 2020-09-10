@@ -2,8 +2,8 @@ runtime: python38
 
 handlers:
 - url: /
-  static_files: /Busca_sinonimo.html
-  upload: /Busca_sinonimo.html
+  static_files: Busca_sinonimo.html
+  upload: Busca_sinonimo.html
 
 - url: /(.*)
   static_files: /\1

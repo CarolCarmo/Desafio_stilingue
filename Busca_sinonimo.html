@@ -25,7 +25,7 @@
 	    	$(document).ready(function(){
 			  $("button").click(function(){
 				sinon = prompt ('Sinônimo: ');
-			    $.get("http://localhost:8080/"+sinon, function(data){
+			    $.get("https://desafio-288901.rj.r.appspot.com/"+sinon, function(data){
 
 			    	for (var i = 0; i < data.length; i++) {
 			    		dados.push([sinon, data[i]]);

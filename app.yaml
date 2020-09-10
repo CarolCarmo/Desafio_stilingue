@@ -10,5 +10,3 @@ handlers:
   static_files: /\1
   upload: /(.*)
   
-  - url: /.*
-  script: busca.app

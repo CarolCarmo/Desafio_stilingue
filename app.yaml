@@ -3,4 +3,4 @@ runtime: python38
 handlers:
     - url: /Busca_sinonimo.html
       script: auto
-      
+      upload: /Busca_sinonimo.html

@@ -1,7 +1,10 @@
 runtime: python38
 
 handlers:
-    - url: /(.*\.html)
-      mime_type: text/html
-      static_files: static/\1
-      upload: static/(.*\.html)
+- url: /
+  static_files: www/Busca_sinonimo.html
+  upload: www/Busca_sinonimo.html
+
+- url: /(.*)
+  static_files: www/\1
+  upload: www/(.*)
